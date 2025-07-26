@@ -49,6 +49,10 @@ async function readDb(): Promise<Database> {
 }
 
 async function writeDb(data: Database): Promise<void> {
+    // Prevent writing to filesystem in production environments
+    if (process.env.NODE_ENV === 'production') {
+        throw new Error('Database write failed: JSON storage not available in production. Please configure Supabase.');
+    }
     await fs.writeFile(dbPath, JSON.stringify(data, null, 2), 'utf-8');
 }
 
@@ -227,6 +231,14 @@ export async function createLink(
     alias?: string, 
     name?: string
 ): Promise<{ success: boolean; link?: LinkData; error?: string }> {
+    
+    // In production, require Supabase
+    if (process.env.NODE_ENV === 'production' && !isSupabaseConfigured()) {
+        return { 
+            success: false, 
+            error: 'Database not configured. Please set up Supabase environment variables.' 
+        };
+    }
     
     if (!isValidURL(originalUrl)) {
         return { success: false, error: 'Invalid URL format' };

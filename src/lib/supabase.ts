@@ -16,6 +16,12 @@ export const supabaseAdmin = supabaseUrl && supabaseUrl.trim() && supabaseServic
 
 // Helper function to check if Supabase is properly configured
 export function isSupabaseConfigured(): boolean {
+  // In production, we should always use Supabase if any URL is provided
+  if (process.env.NODE_ENV === 'production') {
+    return !!(supabaseUrl && supabaseUrl.trim() && supabaseAnonKey && supabaseAnonKey.trim());
+  }
+  
+  // For development, require all three keys
   return !!(supabaseUrl && supabaseUrl.trim() && 
            supabaseAnonKey && supabaseAnonKey.trim() && 
            supabaseServiceRoleKey && supabaseServiceRoleKey.trim())
