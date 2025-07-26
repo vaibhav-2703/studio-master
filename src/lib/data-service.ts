@@ -232,8 +232,15 @@ export async function createLink(
     name?: string
 ): Promise<{ success: boolean; link?: LinkData; error?: string }> {
     
+    console.log('createLink called - Environment check:', {
+        nodeEnv: process.env.NODE_ENV,
+        isSupabaseConfigured: isSupabaseConfigured(),
+        timestamp: new Date().toISOString()
+    });
+    
     // In production, require Supabase
     if (process.env.NODE_ENV === 'production' && !isSupabaseConfigured()) {
+        console.error('Production error: Supabase not configured');
         return { 
             success: false, 
             error: 'Database not configured. Please set up Supabase environment variables.' 
