@@ -89,28 +89,23 @@ export async function createShortLink(input: CreateLinkInput): Promise<CreateLin
     }
   })();
   
-  const newLink = {
-    id: uuidv4(),
-    originalUrl: input.originalUrl,
-    alias: alias,
-    name: linkName,
-    clicks: 0,
-    createdAt: new Date().toISOString(),
-  };
+  const result = await createLink(input.originalUrl, alias, linkName);
 
-  const createdLink = await createLink(newLink);
+  if (!result.success || !result.link) {
+    throw new Error(result.error || 'Failed to create link');
+  }
 
   return {
-    id: createdLink.id,
-    alias: createdLink.alias,
-    shortUrl: `/${createdLink.alias}`,
+    id: result.link.id,
+    alias: result.link.alias,
+    shortUrl: `/${result.link.alias}`,
   };
 }
 
 /**
  * Service for updating existing links
  */
-import { updateLink } from '@/lib/data-service';
+import { updateLink, getLinkById } from '@/lib/data-service';
 import { LinkData } from '@/lib/types';
 
 interface UpdateLinkInput {
@@ -129,7 +124,18 @@ export async function updateShortLink(input: UpdateLinkInput): Promise<LinkData>
     updatedData.originalUrl = input.originalUrl;
   }
 
-  const updatedLink = await updateLink(input.id, updatedData);
+  const result = await updateLink(input.id, updatedData);
+  
+  if (!result.success) {
+    throw new Error(result.error || 'Failed to update link');
+  }
+
+  // Get the updated link
+  const updatedLink = await getLinkById(input.id);
+  if (!updatedLink) {
+    throw new Error('Link not found after update');
+  }
+  
   return updatedLink;
 }
 
