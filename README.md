@@ -1,62 +1,153 @@
-# SnipURL - URL Shortener
+# SnipURL - Advanced URL Shortener 🚀
 
-SnipURL is a modern URL shortener application built with Next.js. Create, share, and track short links with custom aliases, analytics, and more.
+A powerful, production-ready URL shortener built with Next.js 15, featuring real-time analytics, QR codes, and smart security measures.
 
-## Features
+## ✨ Features
 
-- **Short Links:** Create memorable links with custom aliases
-- **Analytics Dashboard:** Track link performance and user engagement
-- **QR Code Generation:** Generate QR codes for easy sharing
-- **Click Tracking:** Detailed analytics with country-based insights
-- **Custom Aliases:** Create branded short links
-- **Theme Support:** Light and dark mode
-- **Security:** URL validation and safety checks
-- **Responsive Design:** Modern UI that works on all devices
+- **Lightning Fast**: Built with Next.js 15 and Turbopack for optimal performance
+- **Smart Analytics**: Real-time click tracking with geographical insights
+- **QR Code Generation**: Instant QR codes for easy sharing
+- **Security First**: URL validation, rate limiting, and malicious link detection
+- **Database Options**: Supabase PostgreSQL with JSON fallback for development
+- **Modern UI**: Beautiful, responsive design with dark/light mode
+- **Link Management**: Edit, delete, and organize your links
+- **Custom Aliases**: Create memorable short URLs
 
-## Tech Stack
+## 🚀 Quick Start
 
-- **Framework:** Next.js 15
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS
-- **UI Components:** Radix UI
-- **Database:** JSON file storage
-- **Deployment:** Vercel
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/vaibhav-2703/URL-Shortener.git
+   cd URL-Shortener
+   ```
 
-## Getting Started
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-### Prerequisites
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env.local
+   # Edit .env.local with your configuration
+   ```
 
-- Node.js (v18 or later)
-- npm
+4. **Run the development server**
+   ```bash
+   npm run dev
+   ```
 
-### Installation
+## 📊 Database Setup
+
+This application supports both **Supabase** (production) and **JSON file** (development) storage:
+
+### For Production (Supabase):
+Follow the comprehensive [Supabase Setup Guide](./SUPABASE_SETUP_GUIDE.md) for production deployment.
+
+### For Development (JSON):
+The app automatically uses JSON file storage when Supabase environment variables aren't configured.
+
+## 🔧 Environment Variables
 
 ```bash
-npm install
+# Application
+NEXT_PUBLIC_APP_URL=https://your-domain.com
+NEXTAUTH_SECRET=your-secret-key
+NEXTAUTH_URL=https://your-domain.com
+
+# Database (Supabase - optional)
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 ```
 
-### Development
+## 🚀 Deployment
 
-```bash
-npm run dev
-```
+### Deploy to Vercel (Recommended)
 
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. **Push to GitHub**
+   ```bash
+   git add .
+   git commit -m "Deploy to production"
+   git push origin main
+   ```
 
-## Scripts
+2. **Deploy to Vercel**
+   - Visit [Vercel](https://vercel.com)
+   - Import your GitHub repository
+   - Configure environment variables
+   - Deploy!
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-- `npm run typecheck` - Run TypeScript compiler
+3. **Set up Supabase** (for production database)
+   - Follow the [Supabase Setup Guide](./SUPABASE_SETUP_GUIDE.md)
+   - Add environment variables to Vercel
+   - Redeploy
 
-The application will be running inside Docker and accessible at [http://localhost:3000](http://localhost:3000).
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript
+- **Database**: Supabase PostgreSQL (production) / JSON (development)
+- **Styling**: Tailwind CSS + shadcn/ui
+- **Authentication**: NextAuth.js (ready for implementation)
+- **Deployment**: Vercel
+- **Analytics**: Real-time click tracking
+
+## 📱 API Endpoints
+
+- `GET /[slug]` - Redirect to original URL
+- `POST /api/links` - Create short link
+- `GET /api/links` - Get user links
+- `PUT /api/links/[id]` - Update link
+- `DELETE /api/links/[id]` - Delete link
+- `GET /api/analytics` - Get analytics data
+
+## 🔒 Security Features
+
+- URL validation and sanitization
+- Rate limiting
+- IP-based click tracking (hashed)
+- Malicious URL detection (configurable)
+- CORS protection
+- Environment-based configuration
+
+## 🎯 Performance
+
+- Server-side rendering for SEO
+- Optimized images and assets
+- Efficient database queries
+- Caching strategies
+- Progressive Web App features
+
+## 📈 Analytics Features
+
+- Real-time click tracking
+- Geographic insights (country/city)
+- Device and browser analytics
+- Time-based statistics
+- Link performance metrics
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Built with [Next.js](https://nextjs.org/)
+- UI components from [shadcn/ui](https://ui.shadcn.com/)
+- Database powered by [Supabase](https://supabase.com/)
+- Deployed on [Vercel](https://vercel.com/)
 
 ---
 
-## Data Storage
+**Live Demo**: [https://snipurl-n6119fxgb-vaibhav-2703s-projects.vercel.app](https://snipurl-n6119fxgb-vaibhav-2703s-projects.vercel.app)
 
-This app does **not** use Firebase, Firestore, or any Google backend for data storage. All data is stored locally in a JSON file (`src/lib/db.json`). No Firebase emulators or configuration are required for development or production.
-
----
+Made with ❤️ by [Vaibhav](https://github.com/vaibhav-2703)
