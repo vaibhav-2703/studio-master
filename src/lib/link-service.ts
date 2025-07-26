@@ -1,3 +1,5 @@
+'use server'
+
 /**
  * Service for extracting page titles from URLs with security measures
  */
