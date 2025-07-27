@@ -1,8 +1,9 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.SUPABASE_URL
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY
-const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+// Support both manual and Vercel integration environment variables
+const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_JWT_SECRET
 
 // Debug logging for production
 console.log('Supabase Environment Check:', {
@@ -12,7 +13,8 @@ console.log('Supabase Environment Check:', {
   anonKeyLength: supabaseAnonKey?.length || 0,
   hasServiceKey: !!supabaseServiceRoleKey,
   serviceKeyLength: supabaseServiceRoleKey?.length || 0,
-  nodeEnv: process.env.NODE_ENV
+  nodeEnv: process.env.NODE_ENV,
+  usingVercelIntegration: !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
 });
 
 // Only create clients if environment variables are provided
