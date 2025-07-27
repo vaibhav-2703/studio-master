@@ -144,7 +144,7 @@ export async function updateShortLink(input: UpdateLinkInput): Promise<LinkData>
 /**
  * Simple URL validation service
  */
-export function validateUrl(url: string): { isValid: boolean; message?: string } {
+export async function validateUrl(url: string): Promise<{ isValid: boolean; message?: string }> {
   try {
     new URL(url);
     return { isValid: true };
