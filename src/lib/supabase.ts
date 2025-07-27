@@ -5,18 +5,6 @@ const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_JWT_SECRET
 
-// Debug logging for production
-console.log('Supabase Environment Check:', {
-  hasUrl: !!supabaseUrl,
-  urlLength: supabaseUrl?.length || 0,
-  hasAnonKey: !!supabaseAnonKey,
-  anonKeyLength: supabaseAnonKey?.length || 0,
-  hasServiceKey: !!supabaseServiceRoleKey,
-  serviceKeyLength: supabaseServiceRoleKey?.length || 0,
-  nodeEnv: process.env.NODE_ENV,
-  usingVercelIntegration: !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
-});
-
 // Only create clients if environment variables are provided
 export const supabase = supabaseUrl && supabaseUrl.trim() && supabaseAnonKey && supabaseAnonKey.trim()
   ? createClient(supabaseUrl, supabaseAnonKey)
