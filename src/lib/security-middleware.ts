@@ -67,7 +67,7 @@ export function withRateLimit(
       rateLimiter = generalLimiter;
   }
   
-  const { allowed, remainingRequests, resetTime } = rateLimiter(clientIP);
+  const { allowed, resetTime } = rateLimiter(clientIP);
   
   if (!allowed) {
     const response = NextResponse.json(
@@ -91,7 +91,7 @@ export function withRateLimit(
 }
 
 // Input sanitization middleware
-export function sanitizeInput(input: any): any {
+export function sanitizeInput(input: unknown): unknown {
   if (typeof input === 'string') {
     // Remove potentially dangerous characters
     return input.trim()
@@ -105,7 +105,7 @@ export function sanitizeInput(input: any): any {
   }
   
   if (typeof input === 'object' && input !== null) {
-    const sanitized: any = {};
+    const sanitized: Record<string, unknown> = {};
     for (const [key, value] of Object.entries(input)) {
       sanitized[key] = sanitizeInput(value);
     }

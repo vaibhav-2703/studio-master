@@ -5,6 +5,7 @@ import { Github, Send, Twitter } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { useToast } from "@/hooks/use-toast";
 
 const socialLinks = [
   { icon: <Twitter className="h-5 w-5" />, href: "#" },
@@ -18,8 +19,8 @@ type FooterLink = {
 };
 
 const handleAuthClick = () => {
-  if (typeof window !== 'undefined' && (window as any).openAuthDialog) {
-    (window as any).openAuthDialog();
+  if (typeof window !== 'undefined' && (window as Window & { openAuthDialog?: () => void }).openAuthDialog) {
+    (window as Window & { openAuthDialog?: () => void }).openAuthDialog!();
   }
 }
 
@@ -43,6 +44,12 @@ const footerLinks: Record<string, FooterLink[]> = {
 
 
 export function Footer() {
+  const { toast } = useToast();
+
+  const submitNewsletter = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({ title: "Subscribed", description: "Thanks for joining our newsletter." });
+  };
   return (
     <footer className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-t border-border/50 bg-muted/20">
       <div className="container mx-auto">
@@ -50,11 +57,11 @@ export function Footer() {
             <div className="md:col-span-2">
                 <h3 className="text-lg font-semibold">Join our newsletter</h3>
                 <p className="text-muted-foreground mt-2 text-sm">Stay up to date with the latest features and releases.</p>
-                <form className="mt-4 flex items-center gap-2">
-                    <Input placeholder="Enter your email" className="max-w-xs" />
-                    <Button>
-                        <Send className="h-4 w-4" />
-                    </Button>
+                <form className="mt-4 flex items-center gap-2" onSubmit={submitNewsletter}>
+                  <Input placeholder="Enter your email" required type="email" className="max-w-xs" />
+                  <Button type="submit">
+                    <Send className="h-4 w-4" />
+                  </Button>
                 </form>
             </div>
             <div className="md:col-span-3 grid grid-cols-2 md:grid-cols-3 gap-8">

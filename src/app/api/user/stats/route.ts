@@ -1,8 +1,8 @@
 import { getUserStats } from '@/lib/data-service';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { withSecurityHeaders } from '@/lib/security-middleware';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const userStats = await getUserStats();
     return withSecurityHeaders(NextResponse.json(userStats));

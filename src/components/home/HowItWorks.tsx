@@ -2,18 +2,18 @@
 const steps = [
     {
       number: "01",
-      title: "Enter your URL",
-      description: "Paste the long URL you want to shorten into the input field.",
+      title: "Paste your URL",
+      description: "Enter the long URL you want to shorten into the input field on our homepage.",
     },
     {
       number: "02",
-      title: "Customize your link",
-      description: "Hit the shorten button. Add a custom name or alias if you want.",
+      title: "Create your link",
+      description: "Click the shorten button. You can also give your link an optional name for easier tracking.",
     },
     {
       number: "03",
-      title: "Share and monitor",
-      description: "Use your new short link anywhere. Check click stats in your dashboard.",
+      title: "Share and Track",
+      description: "Share your new short link or its QR code. Track its performance on your personal dashboard.",
     },
   ];
 
@@ -22,9 +22,9 @@ export function HowItWorks() {
         <section className="py-12 sm:py-20">
             <div className="container mx-auto px-4">
                 <div className="text-center max-w-3xl mx-auto">
-                    <h2 className="text-3xl sm:text-4xl font-bold">How it works</h2>
+                    <h2 className="text-3xl sm:text-4xl font-bold">Get Started in Seconds</h2>
                     <p className="mt-4 text-lg text-muted-foreground">
-                        Three simple steps to create and share your short links.
+                        Creating and sharing a short link is as easy as 1, 2, 3.
                     </p>
                 </div>
                 <div className="mt-12 grid gap-12 md:grid-cols-3 relative">

@@ -8,27 +8,42 @@ import { ThemeToggle } from "./ThemeToggle";
 import { AnimatedDiv } from "./AnimatedDiv";
 import { UserProfile } from "./UserProfile";
 import { useAuth } from "@/hooks/useAuth";
-import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+
 
 export function Header() {
-  const { user, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
+  const pathname = usePathname();
 
   const handleAuthClick = () => {
-    if (typeof window !== 'undefined' && (window as any).openAuthDialog) {
-      (window as any).openAuthDialog();
+    if (typeof window !== 'undefined' && (window as Window & { openAuthDialog?: () => void }).openAuthDialog) {
+      (window as Window & { openAuthDialog?: () => void }).openAuthDialog!();
     }
   }
 
   return (
     <>
+      {/* Skip link for accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground shadow"
+      >
+        Skip to content
+      </a>
       <AnimatedDiv
         tag="header"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="py-3 px-4 sm:px-6 lg:px-8 sticky top-0 z-50 w-full border-b border-border/30 bg-background/60 backdrop-blur-xl backdrop-saturate-150"
+        className="sticky top-0 z-50 w-full border-b border-border/30 bg-background/60 backdrop-blur-xl backdrop-saturate-150"
       >
-        <div className="container mx-auto flex items-center justify-between">
+        <div
+          className="flex items-center justify-between mx-auto
+                     px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12
+                     py-3
+                     w-full
+                     max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-[1440px]"
+        >
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 md:gap-3 group">
             <div className="relative">
@@ -40,12 +55,11 @@ export function Header() {
             </span>
           </Link>
 
-          {/* Center Navigation - Removed search bar */}
-
-          {/* Mobile Search Button - Removed */}
+                           {/* Center Navigation */}
+                 {/* Center Navigation (currently empty) */}
 
           {/* Right Navigation */}
-          <nav className="flex items-center gap-1 md:gap-2">
+          <nav className="flex items-center gap-1 md:gap-2 shrink-0">
             {isAuthenticated ? (
               <div className="flex items-center gap-1 md:gap-2">
                 {/* User Profile with Dropdown */}

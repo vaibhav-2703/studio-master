@@ -22,6 +22,7 @@ import {
   User,
   Home,
   BarChart3,
+  MessageSquare,
   Link,
   Moon,
   Sun,
@@ -32,7 +33,7 @@ import {
 export function CommandPalette() {
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
-  const { setTheme, theme } = useTheme();
+  const { setTheme } = useTheme();
   const { user, logout } = useAuth();
 
   React.useEffect(() => {
@@ -91,6 +92,7 @@ export function CommandPalette() {
                   <BarChart3 className="mr-2 h-4 w-4" />
                   <span>Analytics</span>
                 </CommandItem>
+                {/* Removed Chatbot link - route not available */}
               </>
             )}
           </CommandGroup>

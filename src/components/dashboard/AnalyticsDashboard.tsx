@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/card"
 import {
   ChartContainer,
-  ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import { BarChart as BarChartIcon, Line, LineChart as RechartsLineChart, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts"
@@ -44,9 +43,9 @@ export function AnalyticsDashboard({ analyticsData }: AnalyticsDashboardProps) {
                 <MousePointerClick className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-                <AnimatedCounter to={analyticsData.totalClicks} />
+                 <AnimatedCounter to={analyticsData.totalClicks} />
                 <p className="text-xs text-muted-foreground">
-                    All time clicks
+                    All‑time clicks
                 </p>
             </CardContent>
             </Card>
@@ -56,7 +55,7 @@ export function AnalyticsDashboard({ analyticsData }: AnalyticsDashboardProps) {
                 <Link className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-                <AnimatedCounter to={analyticsData.totalLinks} />
+                 <AnimatedCounter to={analyticsData.totalLinks} />
                 <p className="text-xs text-muted-foreground">Links created</p>
             </CardContent>
             </Card>
@@ -78,7 +77,7 @@ export function AnalyticsDashboard({ analyticsData }: AnalyticsDashboardProps) {
                 <BarChartIcon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-                <div className="text-2xl font-bold">{analyticsData.averageCtr}%</div>
+                 <div className="text-2xl font-bold">{new Intl.NumberFormat(undefined, { maximumFractionDigits: 2 }).format(analyticsData.averageCtr)}%</div>
                 <p className="text-xs text-muted-foreground">
                     {analyticsData.averageCtr > 0 ? 'Based on tracked clicks' : 'No data yet'}
                 </p>
@@ -95,10 +94,10 @@ export function AnalyticsDashboard({ analyticsData }: AnalyticsDashboardProps) {
                 <ChartContainer config={chartConfig} className="h-[300px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
                         <RechartsLineChart data={analyticsData.clicksByDate}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                        <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" />
-                        <Tooltip content={<ChartTooltipContent />} cursor={{ fill: 'hsl(var(--primary) / 0.1)' }} />
-                        <Line type="monotone" dataKey="clicks" stroke="hsl(var(--primary))" strokeWidth={2} dot={{ r: 4, fill: "hsl(var(--primary))" }} />
+                          <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                          <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" tickFormatter={(d) => new Date(d).toLocaleDateString()} />
+                          <Tooltip content={<ChartTooltipContent />} cursor={{ fill: 'hsl(var(--primary) / 0.06)' }} />
+                          <Line type="monotone" dataKey="clicks" stroke="hsl(var(--primary))" strokeWidth={2} dot={false} />
                         </RechartsLineChart>
                     </ResponsiveContainer>
                 </ChartContainer>
@@ -115,11 +114,11 @@ export function AnalyticsDashboard({ analyticsData }: AnalyticsDashboardProps) {
                     <ChartContainer config={chartConfig} className="h-[300px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={analyticsData.clicksByCountry}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                            <XAxis dataKey="country" stroke="hsl(var(--muted-foreground))" />
-                            <YAxis stroke="hsl(var(--muted-foreground))" />
-                            <Tooltip content={<ChartTooltipContent />} cursor={{ fill: 'hsl(var(--primary) / 0.1)' }} />
-                            <Bar dataKey="clicks" fill="hsl(var(--primary))" radius={[2, 2, 0, 0]} />
+                              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                              <XAxis dataKey="country" stroke="hsl(var(--muted-foreground))" />
+                              <YAxis stroke="hsl(var(--muted-foreground))" tickFormatter={(n) => new Intl.NumberFormat().format(Number(n))} />
+                              <Tooltip content={<ChartTooltipContent />} cursor={{ fill: 'hsl(var(--primary) / 0.06)' }} />
+                              <Bar dataKey="clicks" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
                     </ChartContainer>

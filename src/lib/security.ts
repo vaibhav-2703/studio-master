@@ -1,34 +1,38 @@
 /**
- * Security utilities for URL validation and input sanitization
+ * Security validation utilities for SnipURL
  */
 import crypto from 'crypto';
 
+// URL validation with security checks
 export function isValidURL(url: string): boolean {
   try {
     const urlObj = new URL(url);
     
+    // Check for valid protocols
     const allowedProtocols = ['http:', 'https:'];
     if (!allowedProtocols.includes(urlObj.protocol)) {
       return false;
     }
     
-    // Production security: block internal networks
+    // Prevent localhost/internal network access in production
     if (process.env.NODE_ENV === 'production') {
       const hostname = urlObj.hostname.toLowerCase();
       
+      // Block localhost
       if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1') {
         return false;
       }
       
+      // Block private IP ranges
       const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
       if (ipRegex.test(hostname)) {
         const parts = hostname.split('.').map(Number);
-        // Private IP ranges: 10.x.x.x, 172.16-31.x.x, 192.168.x.x
+        // Block private IP ranges: 10.x.x.x, 172.16-31.x.x, 192.168.x.x
         if (
           parts[0] === 10 ||
           (parts[0] === 172 && parts[1] >= 16 && parts[1] <= 31) ||
           (parts[0] === 192 && parts[1] === 168) ||
-          parts[0] === 169
+          parts[0] === 169 // Link-local
         ) {
           return false;
         }

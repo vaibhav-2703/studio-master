@@ -32,7 +32,7 @@ interface EditLinkDialogProps {
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name cannot be empty." }),
-  originalUrl: z.string().url({ message: "Enter a valid URL." }),
+  originalUrl: z.string().url({ message: "Please enter a valid URL." }),
 });
 
 
@@ -64,12 +64,13 @@ export function EditLinkDialog({ isOpen, onOpenChange, link, onLinkUpdated }: Ed
         onLinkUpdated(updatedLink);
         onOpenChange(false); // Close dialog on success
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error updating link:", error);
+      const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred.";
       toast({
         variant: "destructive",
         title: "Error",
-        description: error.message || "An unexpected error occurred.",
+        description: errorMessage,
       });
     } finally {
       setLoading(false);
@@ -94,7 +95,7 @@ export function EditLinkDialog({ isOpen, onOpenChange, link, onLinkUpdated }: Ed
                         <FormItem>
                         <FormLabel>Name</FormLabel>
                         <FormControl>
-                            <Input placeholder="Link title or description" {...field} />
+                            <Input placeholder="My Awesome Link" {...field} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
@@ -107,7 +108,7 @@ export function EditLinkDialog({ isOpen, onOpenChange, link, onLinkUpdated }: Ed
                         <FormItem>
                         <FormLabel>Destination URL</FormLabel>
                         <FormControl>
-                            <Input placeholder="https://yoursite.com/long-url-path" {...field} />
+                            <Input placeholder="https://example.com/very/long/url" {...field} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>

@@ -1,17 +1,18 @@
 
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, type TargetAndTransition, type VariantLabels, type Transition } from "framer-motion"
 import React from "react"
 
 interface AnimatedDivProps {
   children: React.ReactNode;
   className?: string;
   tag?: keyof JSX.IntrinsicElements;
-  initial?: Record<string, any>;
-  animate?: Record<string, any>;
-  transition?: Record<string, any>;
+  initial?: boolean | TargetAndTransition | VariantLabels;
+  animate?: boolean | TargetAndTransition | VariantLabels;
+  transition?: Transition;
   delay?: number;
+  [key: string]: unknown;
 }
 
 export const AnimatedDiv: React.FC<AnimatedDivProps> = ({ 
@@ -24,13 +25,13 @@ export const AnimatedDiv: React.FC<AnimatedDivProps> = ({
   delay = 0,
   ...props
 }) => {
-  const MotionComponent = motion[tag as keyof typeof motion] as any;
+  const MotionComponent = (motion as any)[tag] || motion.div;
 
   return (
-    <MotionComponent 
-      initial={initial}
-      animate={animateProps}
-      transition={{ ...transition, delay }}
+    <MotionComponent
+      initial={initial as any}
+      animate={animateProps as any}
+      transition={{ ...(transition as Transition), delay }}
       className={className} 
       {...props}
     >

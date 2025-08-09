@@ -40,14 +40,14 @@ export default function AuthDialog({
   // Set up global function only once and clean up on unmount
   useEffect(() => {
     if (typeof window !== "undefined") {
-      (window as any).openAuthDialog = () => setIsOpen(true);
+      (window as Window & { openAuthDialog?: () => void }).openAuthDialog = () => setIsOpen(true);
       
       // Cleanup function
       return () => {
-        delete (window as any).openAuthDialog;
+        delete (window as Window & { openAuthDialog?: () => void }).openAuthDialog;
       };
     }
-  }, []);
+  }, [setIsOpen]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -165,7 +165,7 @@ export default function AuthDialog({
                     <Input
                       id="login-email"
                       type="email"
-                      placeholder="your.email@domain.com"
+                      placeholder="m@example.com"
                       value={loginEmail}
                       onChange={e => setLoginEmail(e.target.value)}
                       disabled={loginLoading}
@@ -194,7 +194,7 @@ export default function AuthDialog({
                     <Input
                       id="signup-name"
                       type="text"
-                      placeholder="Your Full Name"
+                      placeholder="John Doe"
                       value={signupName}
                       onChange={e => setSignupName(e.target.value)}
                       disabled={signupLoading}
@@ -205,7 +205,7 @@ export default function AuthDialog({
                     <Input
                       id="signup-email"
                       type="email"
-                      placeholder="your.email@domain.com"
+                      placeholder="m@example.com"
                       value={signupEmail}
                       onChange={e => setSignupEmail(e.target.value)}
                       disabled={signupLoading}

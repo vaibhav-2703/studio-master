@@ -14,25 +14,25 @@ export default function Home() {
 
   useEffect(() => {
     // Make the openAuthDialog function globally available
-    (window as any).openAuthDialog = () => {
+    (window as Window & { openAuthDialog?: () => void }).openAuthDialog = () => {
       setIsAuthDialogOpen(true);
     };
 
     return () => {
-      delete (window as any).openAuthDialog;
+      delete (window as Window & { openAuthDialog?: () => void }).openAuthDialog;
     };
   }, []);
 
   return (
-      <div className="flex flex-col min-h-screen">
-        <Header />
-        <main className="flex-1">
-          <Hero />
-          <HowItWorks />
-          <CTA />
-        </main>
-        <Footer />
-        <AuthDialog isOpen={isAuthDialogOpen} setIsOpen={setIsAuthDialogOpen} />
-      </div>
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-1">
+        <Hero />
+        <HowItWorks />
+        <CTA />
+      </main>
+      <Footer />
+      <AuthDialog isOpen={isAuthDialogOpen} setIsOpen={setIsAuthDialogOpen} />
+    </div>
   );
 }
