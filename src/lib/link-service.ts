@@ -1,5 +1,3 @@
-'use server'
-
 /**
  * Service for extracting page titles from URLs with security measures
  */
@@ -91,23 +89,28 @@ export async function createShortLink(input: CreateLinkInput): Promise<CreateLin
     }
   })();
   
-  const result = await createLink(input.originalUrl, alias, linkName);
+  const newLink = {
+    id: uuidv4(),
+    originalUrl: input.originalUrl,
+    alias: alias,
+    name: linkName,
+    clicks: 0,
+    createdAt: new Date().toISOString(),
+  };
 
-  if (!result.success || !result.link) {
-    throw new Error(result.error || 'Failed to create link');
-  }
+  const createdLink = await createLink(newLink);
 
   return {
-    id: result.link.id,
-    alias: result.link.alias,
-    shortUrl: `/${result.link.alias}`,
+    id: createdLink.id,
+    alias: createdLink.alias,
+    shortUrl: `/${createdLink.alias}`,
   };
 }
 
 /**
  * Service for updating existing links
  */
-import { updateLink, getLinkById } from '@/lib/data-service';
+import { updateLink } from '@/lib/data-service';
 import { LinkData } from '@/lib/types';
 
 interface UpdateLinkInput {
@@ -126,25 +129,14 @@ export async function updateShortLink(input: UpdateLinkInput): Promise<LinkData>
     updatedData.originalUrl = input.originalUrl;
   }
 
-  const result = await updateLink(input.id, updatedData);
-  
-  if (!result.success) {
-    throw new Error(result.error || 'Failed to update link');
-  }
-
-  // Get the updated link
-  const updatedLink = await getLinkById(input.id);
-  if (!updatedLink) {
-    throw new Error('Link not found after update');
-  }
-  
+  const updatedLink = await updateLink(input.id, updatedData);
   return updatedLink;
 }
 
 /**
  * Simple URL validation service
  */
-export async function validateUrl(url: string): Promise<{ isValid: boolean; message?: string }> {
+export function validateUrl(url: string): { isValid: boolean; message?: string } {
   try {
     new URL(url);
     return { isValid: true };

@@ -52,7 +52,7 @@ export function UserProfile() {
     if (user) {
       fetchStats()
     }
-  }, [user, isDialogOpen])
+  }, [user, isDialogOpen]) // Refetch when dialog opens to get latest stats
 
   const handleLogout = async () => {
     try {
@@ -65,7 +65,7 @@ export function UserProfile() {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Logout failed. Try again.",
+        description: "Failed to logout. Please try again.",
       })
     }
   }
@@ -106,7 +106,7 @@ export function UserProfile() {
       toast({
         variant: "destructive",
         title: "Error",
-        description: error instanceof Error ? error.message : "Profile update failed. Try again.",
+        description: error instanceof Error ? error.message : "Failed to update profile. Please try again.",
       });
     }
   }
@@ -273,7 +273,7 @@ export function UserProfile() {
                     id="name"
                     value={editData.name}
                     onChange={(e) => setEditData(prev => ({ ...prev, name: e.target.value }))}
-                    placeholder="Your full name"
+                    placeholder="Enter your full name"
                   />
                 ) : (
                   <div className="flex items-center gap-2 p-2 bg-muted rounded-md">
@@ -291,7 +291,7 @@ export function UserProfile() {
                     type="email"
                     value={editData.email}
                     onChange={(e) => setEditData(prev => ({ ...prev, email: e.target.value }))}
-                    placeholder="Your email address"
+                    placeholder="Enter your email"
                   />
                 ) : (
                   <div className="flex items-center gap-2 p-2 bg-muted rounded-md">

@@ -17,8 +17,8 @@ export function MobileNav({ className }: MobileNavProps) {
   const { user, isAuthenticated, logout } = useAuth()
 
   const handleAuthClick = () => {
-    if (typeof window !== 'undefined' && (window as any).openAuthDialog) {
-      (window as any).openAuthDialog();
+    if (typeof window !== 'undefined' && (window as Window & { openAuthDialog?: () => void }).openAuthDialog) {
+      (window as Window & { openAuthDialog?: () => void }).openAuthDialog!();
     }
     setIsOpen(false)
   }

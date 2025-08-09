@@ -1,0 +1,59 @@
+// Prisma schema for SnipURL
+// After adding DATABASE_URL in .env run: npx prisma migrate dev --name init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  name          String
+  passwordHash  String
+  avatar        String?        @db.VarChar(512)
+  createdAt     DateTime       @default(now())
+  links         Link[]
+  refreshTokens RefreshToken[]
+}
+
+model Link {
+  id          String    @id @default(cuid())
+  originalUrl String
+  alias       String    @unique
+  name        String
+  clicks      Int       @default(0)
+  createdAt   DateTime  @default(now())
+  userId      String?
+  user        User?     @relation(fields: [userId], references: [id])
+  clickEvents Click[]
+  @@index([userId])
+}
+
+model Click {
+  id        String   @id @default(cuid())
+  linkId    String
+  link      Link     @relation(fields: [linkId], references: [id])
+  timestamp DateTime @default(now())
+  country   String   @default("N/A")
+  city      String?  @db.VarChar(128)
+  ipHash    String?  @db.VarChar(128)
+  @@index([linkId])
+  @@index([timestamp])
+}
+
+model RefreshToken {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  tokenHash  String   @unique
+  createdAt  DateTime @default(now())
+  expiresAt  DateTime
+  revoked    Boolean  @default(false)
+  @@index([userId])
+  @@index([expiresAt])
+}

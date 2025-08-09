@@ -1,4 +1,13 @@
 {
-  "links": [],
+  "links": [
+    {
+      "id": "6d83aa90-74cf-4457-9d42-fe4e58c64e2d",
+      "originalUrl": "http://x.com",
+      "alias": "sfnbl7",
+      "name": "x.com",
+      "clicks": 3,
+      "createdAt": "2025-07-26T11:01:28.990Z"
+    }
+  ],
   "clicks": []
 }

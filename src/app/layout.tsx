@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Inter } from 'next/font/google';
 import { ClientProviders } from '@/components/shared/ClientProviders';
-import { CommandPalette } from '@/components/shared/CommandPalette';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -12,8 +11,8 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'SnipURL - URL Shortener & Analytics',
-  description: 'Shorten URLs, track clicks, and analyze performance with SnipURL.',
+  title: 'SnipURL - The Ultimate URL Shortener',
+  description: 'Create, share, and track your links with SnipURL.',
 };
 
 export default function RootLayout({
@@ -26,7 +25,6 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <ClientProviders>
           {children}
-          <CommandPalette />
         </ClientProviders>
       </body>
     </html>

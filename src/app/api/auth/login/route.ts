@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const sanitizedBody = sanitizeInput(body);
+    const sanitizedBody = sanitizeInput(body) as { email?: string; password?: string };
     const { email, password } = sanitizedBody;
 
     // Validate input

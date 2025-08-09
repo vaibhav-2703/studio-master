@@ -68,7 +68,7 @@ export default function SlugRedirectPage() {
                 {status === 'not_found' && (
                      <div className="text-center">
                         <h1 className="text-2xl font-bold mb-2">Link Not Found</h1>
-                        <p className="text-muted-foreground">The link with alias "{alias}" could not be found.</p>
+                        <p className="text-muted-foreground">The link with alias &quot;{alias}&quot; could not be found.</p>
                         {error && <p className="text-destructive mt-2">{error}</p>}
                         <p className="text-muted-foreground mt-4">You will be redirected to the homepage shortly.</p>
                     </div>

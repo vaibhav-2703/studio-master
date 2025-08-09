@@ -1,11 +1,11 @@
 
 "use client";
 
-import { UrlShortenerForm } from "./UrlShortenerForm";
+import { ModernUrlShortener } from "./ModernUrlShortener";
 import { AnimatedDiv } from "@/components/shared/AnimatedDiv";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Sparkles, Shield, BarChart3 } from "lucide-react";
+import { Sparkles, Shield, BarChart3 } from "lucide-react";
 
 export function Hero() {
   return (
@@ -54,9 +54,9 @@ export function Hero() {
 
             {/* Subtitle */}
             <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Create short, memorable links for your content with{" "}
-              <span className="text-foreground font-semibold">detailed analytics</span>{" "}
-              and professional link management features.
+              Transform your long URLs into{" "}
+              <span className="text-foreground font-semibold">powerful, trackable links</span>{" "}
+              with enterprise-grade analytics and secure link management.
             </p>
 
             {/* Feature Pills */}
@@ -68,15 +68,15 @@ export function Hero() {
             >
               <div className="flex items-center gap-2 px-4 py-2 bg-background/60 backdrop-blur-sm rounded-full border border-border/50">
                 <Shield className="h-4 w-4 text-green-500" />
-                <span className="text-sm font-medium">Secure Links</span>
+                <span className="text-sm font-medium">URL Security</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 bg-background/60 backdrop-blur-sm rounded-full border border-border/50">
                 <BarChart3 className="h-4 w-4 text-blue-500" />
-                <span className="text-sm font-medium">Click Analytics</span>
+                <span className="text-sm font-medium">Real-time Analytics</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 bg-background/60 backdrop-blur-sm rounded-full border border-border/50">
                 <Sparkles className="h-4 w-4 text-purple-500" />
-                <span className="text-sm font-medium">Custom Aliases</span>
+                <span className="text-sm font-medium">Custom Domains</span>
               </div>
             </motion.div>
           </AnimatedDiv>
@@ -89,7 +89,7 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="max-w-4xl mx-auto"
         >
-          <UrlShortenerForm />
+          <ModernUrlShortener />
         </AnimatedDiv>
 
         {/* Trust Indicators */}

@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
+import prisma from './db';
 
 // Generate a secure JWT secret if not provided
 const generateSecureSecret = () => {
@@ -29,22 +30,15 @@ export interface JWTPayload {
   exp?: number;
 }
 
-// Development user database
-const users: User[] = [
-  {
-    id: '1',
-    email: 'admin@snipurl.dev',
-    name: 'Administrator',
-    password: '$2b$12$DDElzWs7KP2eUG/Zot8pluQwrUVTgBlP27BW2Yop5BywH7tcukOji' // admin123
-  }
-];
+// Optional password pepper for extra defense (append to password before hashing)
+const PASSWORD_PEPPER = process.env.PASSWORD_PEPPER || '';
 
 export async function hashPassword(password: string): Promise<string> {
-  return bcrypt.hash(password, 12);
+  return bcrypt.hash(password + PASSWORD_PEPPER, 12);
 }
 
 export async function verifyPassword(password: string, hashedPassword: string): Promise<boolean> {
-  return bcrypt.compare(password, hashedPassword);
+  return bcrypt.compare(password + PASSWORD_PEPPER, hashedPassword);
 }
 
 export function generateToken(payload: Omit<JWTPayload, 'iat' | 'exp'>): string {
@@ -60,43 +54,23 @@ export function verifyToken(token: string): JWTPayload | null {
 }
 
 export async function authenticateUser(email: string, password: string): Promise<User | null> {
-  const user = users.find(u => u.email === email);
-  if (!user || !user.password) return null;
-
-  const isValid = await verifyPassword(password, user.password);
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (!user) return null;
+  const isValid = await verifyPassword(password, user.passwordHash);
   if (!isValid) return null;
-
-  // Return user without password
-  const { password: _, ...userWithoutPassword } = user;
-  return userWithoutPassword;
+  return { id: user.id, email: user.email, name: user.name, avatar: user.avatar };
 }
 
 export async function createUser(email: string, password: string, name: string): Promise<User | null> {
-  // Check if user already exists
-  if (users.find(u => u.email === email)) {
-    return null;
-  }
-
-  const hashedPassword = await hashPassword(password);
-  const newUser: User = {
-    id: Date.now().toString(),
-    email,
-    name,
-    password: hashedPassword
-  };
-
-  users.push(newUser);
-
-  // Return user without password
-  const { password: _, ...userWithoutPassword } = newUser;
-  return userWithoutPassword;
+  const existing = await prisma.user.findUnique({ where: { email } });
+  if (existing) return null;
+  const passwordHash = await hashPassword(password);
+  const created = await prisma.user.create({ data: { email, name, passwordHash } });
+  return { id: created.id, email: created.email, name: created.name };
 }
 
-export function getUserById(id: string): User | null {
-  const user = users.find(u => u.id === id);
+export async function getUserById(id: string): Promise<User | null> {
+  const user = await prisma.user.findUnique({ where: { id } });
   if (!user) return null;
-
-  // Return user without password
-  const { password: _, ...userWithoutPassword } = user;
-  return userWithoutPassword;
+  return { id: user.id, email: user.email, name: user.name, avatar: user.avatar };
 }

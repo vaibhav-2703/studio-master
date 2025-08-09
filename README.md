@@ -1,153 +1,93 @@
-# SnipURL - Advanced URL Shortener 🚀
+# LinkCraft - Modern URL Shortener
 
-A powerful, production-ready URL shortener built with Next.js 15, featuring real-time analytics, QR codes, and smart security measures.
+LinkCraft is a modern, full-stack URL shortener application built with Next.js. It allows users to create, share, and track short links with features like custom aliases, QR code generation, and detailed analytics.
 
-## ✨ Features
+## Features
 
-- **Lightning Fast**: Built with Next.js 15 and Turbopack for optimal performance
-- **Smart Analytics**: Real-time click tracking with geographical insights
-- **QR Code Generation**: Instant QR codes for easy sharing
-- **Security First**: URL validation, rate limiting, and malicious link detection
-- **Database Options**: Supabase PostgreSQL with JSON fallback for development
-- **Modern UI**: Beautiful, responsive design with dark/light mode
-- **Link Management**: Edit, delete, and organize your links
-- **Custom Aliases**: Create memorable short URLs
-
-## 🚀 Quick Start
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/vaibhav-2703/URL-Shortener.git
-   cd URL-Shortener
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Set up environment variables**
-   ```bash
-   cp .env.example .env.local
-   # Edit .env.local with your configuration
-   ```
-
-4. **Run the development server**
-   ```bash
-   npm run dev
-   ```
-
-## 📊 Database Setup
-
-This application supports both **Supabase** (production) and **JSON file** (development) storage:
-
-### For Production (Supabase):
-Follow the comprehensive [Supabase Setup Guide](./SUPABASE_SETUP_GUIDE.md) for production deployment.
-
-### For Development (JSON):
-The app automatically uses JSON file storage when Supabase environment variables aren't configured.
-
-## 🔧 Environment Variables
-
-```bash
-# Application
-NEXT_PUBLIC_APP_URL=https://your-domain.com
-NEXTAUTH_SECRET=your-secret-key
-NEXTAUTH_URL=https://your-domain.com
-
-# Database (Supabase - optional)
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_ANON_KEY=your-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
-```
-
-## 🚀 Deployment
-
-### Deploy to Vercel (Recommended)
-
-1. **Push to GitHub**
-   ```bash
-   git add .
-   git commit -m "Deploy to production"
-   git push origin main
-   ```
-
-2. **Deploy to Vercel**
-   - Visit [Vercel](https://vercel.com)
-   - Import your GitHub repository
-   - Configure environment variables
-   - Deploy!
-
-3. **Set up Supabase** (for production database)
-   - Follow the [Supabase Setup Guide](./SUPABASE_SETUP_GUIDE.md)
-   - Add environment variables to Vercel
-   - Redeploy
+- **Powerful Short Links:** Create short, memorable links with random or custom aliases.
+- **Link Analytics:** A comprehensive dashboard to track link performance, including total clicks and click trends.
+- **Customizable QR Codes:** Generate and customize QR codes for your short links with different colors.
+- **Analytics:** Track clicks, and user engagement.
+- **Custom Aliases:** Create memorable short links.
+- **QR Codes:** Generate QR codes for easy sharing.
+- **Theme Support:** Light and dark mode support.
+- **Security:** Basic URL validation and safety checks.
+- **Responsive Design:** A beautiful, modern UI that works on all devices.
+- **Light & Dark Mode:** Switch between light and dark themes.
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Next.js 15 with App Router
-- **Language**: TypeScript
-- **Database**: Supabase PostgreSQL (production) / JSON (development)
-- **Styling**: Tailwind CSS + shadcn/ui
-- **Authentication**: NextAuth.js (ready for implementation)
-- **Deployment**: Vercel
-- **Analytics**: Real-time click tracking
-
-## 📱 API Endpoints
-
-- `GET /[slug]` - Redirect to original URL
-- `POST /api/links` - Create short link
-- `GET /api/links` - Get user links
-- `PUT /api/links/[id]` - Update link
-- `DELETE /api/links/[id]` - Delete link
-- `GET /api/analytics` - Get analytics data
-
-## 🔒 Security Features
-
-- URL validation and sanitization
-- Rate limiting
-- IP-based click tracking (hashed)
-- Malicious URL detection (configurable)
-- CORS protection
-- Environment-based configuration
-
-## 🎯 Performance
-
-- Server-side rendering for SEO
-- Optimized images and assets
-- Efficient database queries
-- Caching strategies
-- Progressive Web App features
-
-## 📈 Analytics Features
-
-- Real-time click tracking
-- Geographic insights (country/city)
-- Device and browser analytics
-- Time-based statistics
-- Link performance metrics
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Built with [Next.js](https://nextjs.org/)
-- UI components from [shadcn/ui](https://ui.shadcn.com/)
-- Database powered by [Supabase](https://supabase.com/)
-- Deployed on [Vercel](https://vercel.com/)
+- **Framework:** [Next.js 15](https://nextjs.org/)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components:** [Radix UI](https://www.radix-ui.com/)
+- **Authentication:** Custom JWT (httpOnly cookie) auth (email + password) implemented in `src/lib/auth.ts` with secure token issuance and validation.
+- **Database:** File-based JSON storage
+- **Deployment:** [Vercel](https://vercel.com/)
 
 ---
 
-**Live Demo**: [https://snipurl-n6119fxgb-vaibhav-2703s-projects.vercel.app](https://snipurl-n6119fxgb-vaibhav-2703s-projects.vercel.app)
+## Getting Started
 
-Made with ❤️ by [Vaibhav](https://github.com/vaibhav-2703)
+### Prerequisites
+
+- [Node.js](https://nodejs.org/en/) (v18 or later)
+- [npm](https://www.npmjs.com/)
+- [Docker](https://www.docker.com/get-started) (optional, for containerized deployment)
+
+### 1. Set Up Environment Variables
+
+This project uses the free [PhishTank API](https://phishtank.com/developer_info.php) to check for phishing and malicious URLs. No API key or special setup is required for this feature.
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Run the Development Server
+
+```bash
+npm run dev
+```
+
+The application will be available at [http://localhost:3000](http://localhost:3000).
+
+---
+
+## Available Scripts
+
+- `npm run dev`: Starts the Next.js development server.
+- `npm run build`: Creates a production build of the application.
+- `npm run start`: Starts the production server.
+- `npm run lint`: Lints the codebase for potential errors.
+- `npm run typecheck`: Runs the TypeScript compiler to check for type errors.
+
+
+## Docker Deployment
+
+A multi-stage `Dockerfile` is included for creating a production-optimized Docker image.
+
+1.  **Build the Docker image:**
+
+    ```bash
+    docker build -t linkcraft-app .
+    ```
+
+2.  **Run the Docker container:**
+
+    ```bash
+    docker run -p 3000:3000 --env-file .env linkcraft-app
+    ```
+
+    > **Note:** The `--env-file .env` flag injects your environment variables (like the Safe Browsing API key) into the container at runtime.
+
+The application will be running inside Docker and accessible at [http://localhost:3000](http://localhost:3000).
+
+---
+
+## Data Storage
+
+This app does **not** use Firebase, Firestore, or any Google backend for data storage. All data is stored locally in a JSON file (`src/lib/db.json`). No Firebase emulators or configuration are required for development or production.
+
+---

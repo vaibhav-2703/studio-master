@@ -39,7 +39,7 @@ export function EnhancedCopyButton({
       })
 
       setTimeout(() => setIsCopied(false), 2000)
-    } catch (err) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to copy to clipboard",

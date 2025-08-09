@@ -3,7 +3,6 @@
 
 import { ThemeProvider } from '@/hooks/use-theme';
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { AuthProvider } from '@/hooks/useAuth';
 
 export function ClientProviders({
@@ -27,9 +26,8 @@ export function ClientProviders({
             </div>
             {children}
             <Toaster />
-            <Sonner />
           </div>
         </ThemeProvider>
-      </AuthProvider>
+  </AuthProvider>
   );
 }
