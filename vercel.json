@@ -1,0 +1,10 @@
+{
+	"version": 2,
+	"build": { "env": { "DATABASE_URL": "@database-url" } },
+	"env": {
+		"JWT_SECRET": "@jwt-secret",
+		"PASSWORD_PEPPER": "@password-pepper",
+		"JWT_ACCESS_EXPIRES_IN": "15m",
+		"REFRESH_TOKEN_DAYS": "30"
+	}
+}
