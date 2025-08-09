@@ -21,8 +21,8 @@ LinkCraft is a modern, full-stack URL shortener application built with Next.js. 
 - **Language:** [TypeScript](https://www.typescriptlang.org/)
 - **Styling:** [Tailwind CSS](https://tailwindcss.com/)
 - **UI Components:** [Radix UI](https://www.radix-ui.com/)
-- **Authentication:** Custom JWT (httpOnly cookie) auth (email + password) implemented in `src/lib/auth.ts` with secure token issuance and validation.
-- **Database:** File-based JSON storage
+- **Authentication:** Short-lived access token + rotating refresh token (httpOnly, sameSite=strict) in `src/lib/auth.ts`.
+- **Database:** PostgreSQL via Prisma (`prisma/schema.prisma`).
 - **Deployment:** [Vercel](https://vercel.com/)
 
 ---
@@ -88,6 +88,33 @@ The application will be running inside Docker and accessible at [http://localhos
 
 ## Data Storage
 
-This app does **not** use Firebase, Firestore, or any Google backend for data storage. All data is stored locally in a JSON file (`src/lib/db.json`). No Firebase emulators or configuration are required for development or production.
+- Replaced legacy JSON file with PostgreSQL + Prisma. Migrations live in `prisma/migrations` and run automatically during build (`prisma migrate deploy`).
 
----
+## CI/CD & Deployment
+
+### Vercel Auto Deploy
+Pushes to `main` (or `master`) trigger Vercel's native build & deploy. Configure environment variables in Vercel for Development, Preview, and Production:
+
+Required:
+- DATABASE_URL
+- JWT_SECRET
+- PASSWORD_PEPPER (optional but recommended)
+- JWT_ACCESS_EXPIRES_IN (e.g. 15m)
+- REFRESH_TOKEN_DAYS (e.g. 30)
+
+### GitHub Actions Quality Gate
+Workflow `.github/workflows/ci.yml` validates build, type checking, linting. Deployment itself is handled by Vercel (no manual deploy step in the workflow).
+
+### Migrations
+`prisma migrate deploy` runs during the build. Always commit new migrations. Avoid editing past migrations; create incremental ones.
+
+### Local Development
+Set `DATABASE_URL` in `.env` (see `.env.example`). Run:
+
+```bash
+npm install
+npm run dev
+```
+
+### Refresh Tokens
+Refresh tokens are stored hashed in the `RefreshToken` table; rotation endpoint: `POST /api/auth/refresh`.
